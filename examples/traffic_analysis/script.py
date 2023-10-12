@@ -35,11 +35,16 @@ class DetectionsManager:
         detections_out_zones: List[sv.Detections],
     ) -> sv.Detections:
         for zone_in_id, detections_in_zone in enumerate(detections_in_zones):
+            if detections_in_zone.tracker_id is None:
+                continue
             for tracker_id in detections_in_zone.tracker_id:
                 self.tracker_id_to_zone_id.setdefault(tracker_id, zone_in_id)
 
         for zone_out_id, detections_out_zone in enumerate(detections_out_zones):
+            if detections_out_zone.tracker_id is None:
+                continue
             for tracker_id in detections_out_zone.tracker_id:
+            
                 if tracker_id in self.tracker_id_to_zone_id:
                     zone_in_id = self.tracker_id_to_zone_id[tracker_id]
                     self.counts.setdefault(zone_out_id, {})
