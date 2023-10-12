@@ -143,6 +143,7 @@ class VideoProcessor:
                 for i, zone_in_id in enumerate(counts):
                     count = len(self.detections_manager.counts[zone_out_id][zone_in_id])
                     text_anchor = sv.Point(x=zone_center.x, y=zone_center.y + 40 * i)
+                    print(count,zone_in_id)
                     annotated_frame = sv.draw_text(
                         scene=annotated_frame,
                         text=str(count),
