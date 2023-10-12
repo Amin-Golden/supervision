@@ -54,8 +54,10 @@ class DetectionsManager:
         detections_all.class_id = np.vectorize(
             lambda x: self.tracker_id_to_zone_id.get(x, -1)
         )(detections_all.tracker_id)
-        if detections_all.class_id is None :
-            return detections_all[[]]
+        a = detections_all.class_id != -1
+        # print (a)
+        if a is None :
+            return [[     18.737,      607.71,      128.32,      718.38]]
         else:
             return detections_all[detections_all.class_id != -1]
 
