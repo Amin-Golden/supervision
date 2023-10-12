@@ -54,7 +54,10 @@ class DetectionsManager:
         detections_all.class_id = np.vectorize(
             lambda x: self.tracker_id_to_zone_id.get(x, -1)
         )(detections_all.tracker_id)
-        return detections_all[detections_all.class_id != -1]
+        if detections_all.class_id is None :
+            return detections_all[[]]
+        else:
+            return detections_all[detections_all.class_id != -1]
 
 
 def initiate_polygon_zones(
