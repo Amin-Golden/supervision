@@ -11,17 +11,15 @@ import supervision as sv
 COLORS = sv.ColorPalette.default()
 
 ZONE_IN_POLYGONS = [
-    np.array([[592, 282], [900, 282], [900, 82], [592, 82]]),
-    np.array([[950, 860], [1250, 860], [1250, 1060], [950, 1060]]),
-    np.array([[592, 582], [592, 860], [392, 860], [392, 582]]),
-    np.array([[1250, 282], [1250, 530], [1450, 530], [1450, 282]]),
+    np.array([[2, 450], [1270, 500], [1270, 720], [10, 720]]),
+    np.array([[450, 100], [700, 100], [800, 400], [100, 400]]),
+
 ]
 
 ZONE_OUT_POLYGONS = [
-    np.array([[950, 282], [1250, 282], [1250, 82], [950, 82]]),
-    np.array([[592, 860], [900, 860], [900, 1060], [592, 1060]]),
-    np.array([[592, 282], [592, 550], [392, 550], [392, 282]]),
-    np.array([[1250, 860], [1250, 560], [1450, 560], [1450, 860]]),
+    np.array([[30, 200], [1250, 200], [1270, 500], [10, 450]]),
+    np.array([[50, 400], [900, 400], [900, 600], [50, 600]]),
+
 ]
 
 
@@ -108,6 +106,8 @@ class VideoProcessor:
         if self.target_video_path:
             with sv.VideoSink(self.target_video_path, self.video_info) as sink:
                 for frame in tqdm(frame_generator, total=self.video_info.total_frames):
+                    dim = (1280,720)
+                    frame = cv2.resize(frame,dim, interpolation=cv2.INTER_AREA)
                     annotated_frame = self.process_frame(frame)
                     sink.write_frame(annotated_frame)
         else:
@@ -157,6 +157,7 @@ class VideoProcessor:
             frame, verbose=False, conf=self.conf_threshold, iou=self.iou_threshold
         )[0]
         detections = sv.Detections.from_ultralytics(results)
+        detections = detections[detections.class_id == 0]
         detections.class_id = np.zeros(len(detections))
         detections = self.tracker.update_with_detections(detections)
 

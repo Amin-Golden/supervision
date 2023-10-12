@@ -36,7 +36,7 @@ https://github.com/roboflow/supervision/assets/26109316/c9436828-9fbf-4c25-ae8c-
 
 ```bash
 python script.py \
---source_weights_path data/traffic_analysis.pt \
+--source_weights_path yolov8x.pt \
 --source_video_path data/traffic_analysis.mov \
 --confidence_threshold 0.3 \
 --iou_threshold 0.5 \
