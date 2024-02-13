@@ -115,9 +115,9 @@ class VideoProcessor:
 
         if self.target_video_path:
             with sv.VideoSink(self.target_video_path, self.video_info) as sink:
-                for frame in tqdm(frame_generator, total=self.video_info.total_frames):
-                    dim = (1280,720)
-                    frame = cv2.resize(frame,dim, interpolation=cv2.INTER_AREA)
+                for frame in tqdm(frame_generator, total=2000): #self.video_info.total_frames
+                    # dim = (1280,720)
+                    # frame = cv2.resize(frame,dim, interpolation=cv2.INTER_AREA)
                     annotated_frame = self.process_frame(frame)
                     sink.write_frame(annotated_frame)
         else:
